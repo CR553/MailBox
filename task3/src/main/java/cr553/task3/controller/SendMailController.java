@@ -36,11 +36,6 @@ public class SendMailController {
             props.setProperty("mail.smtp.auth", "true");
             props.setProperty("mail.smtp.ssl.enable", "false");//"true"
             props.setProperty("mail.smtp.connectiontimeout", "5000");
-            /*
-            //测试数据
-            final String user = "960162212@qq.com";
-            final String pwd = "khcxygjavjvrbdia";
-            */
             final String user =LoginUser.getName();//邮箱账号
             final String pwd = LoginUser.getPwd();//smtp/pop3授权密码
             /*
