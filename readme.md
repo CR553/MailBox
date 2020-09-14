@@ -101,23 +101,23 @@ mybatis:
 
 首页
 
-![](C:\Users\CR553\Desktop\博客中邮件图片\首页.png)
+![](https://pic4.zhimg.com/v2-07afe5e9cb172929958c034935e9fbb7_r.jpg)
 
 登录
 
-![](C:\Users\CR553\Desktop\博客中邮件图片\登录页面.png)
+![](https://pic2.zhimg.com/80/v2-3d09e207008405de86be4d0afa25718a_720w.jpg)
 
 注册
 
-![](C:\Users\CR553\Desktop\博客中邮件图片\注册页面.png)
+![](https://pic3.zhimg.com/80/v2-ede4c9b5a8b3829732a7ab7abbbb0db2_720w.jpg)
 
 发送邮件
 
-![](C:\Users\CR553\Desktop\博客中邮件图片\发送页面.png)
+![](https://pic3.zhimg.com/80/v2-cc23f7b5d8ef8707fdfb6dd127033a6a_720w.jpg)
 
 查看邮件
 
-![](C:\Users\CR553\Desktop\博客中邮件图片\发邮件测试结果.png)
+![](https://pic3.zhimg.com/80/v2-444ba951e26e156cb6582bedf328211f_720w.jpg)
 
 ## 二、实现
 
