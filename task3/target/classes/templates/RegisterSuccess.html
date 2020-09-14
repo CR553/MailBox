@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册成功页面</title>
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/registerSuccess.css" rel="stylesheet">
+</head>
+<body>
+<div id="header">
+    <div id="logo"><a th:href="@{/index}"><img src="/photo/CLogo.png" height="65px" width="65px"></a></div>
+    <div id="nav">
+        <span th:if="${session.LoginUserName}!=null">
+            <span >尊敬的&nbsp;<span id="userStyle" th:text="${session.LoginUserName}"></span>
+            &nbsp;欢迎回来</span>
+            <span><a th:href="@{/logOut}">登出</a></span>
+        </span>
+        <a th:if="${session.LoginUserName==null}" th:href="@{/toLogin}">登录</a>
+        <a th:href="@{/toRegister}">注册</a>
+        <a th:href="@{/toSendMail}">发送邮件</a>
+        <a th:href="@{/user/receiveMail}">收件箱</a>
+    </div>
+</div>
+<div id="box">
+    <hr>
+    <div class="SuccessMsg">
+        <p>你已注册成功,赶快去<a th:href="@{/toLogin}">登录</a>吧!</p>
+    </div>
+</div>
+<div id="footer">
+    <hr>
+    <p class="producer">Made by CR553</p>
+</div>
+
+</body>
+</html>

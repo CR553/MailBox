@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            background-color: rgb(241, 238, 238);
+        }
+        
+        .input {
+            height: 200px;
+            width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+            border: 5px solid #999;
+            border-radius: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .output {
+            height: 210px;
+            width: 500px;
+            margin: 100px auto;
+            border: 5px solid #999;
+            border-radius: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        p {
+            height: 30px;
+            line-height: 30px;
+            margin-left: 30px;
+            font-weight: 600;
+        }
+        
+        LI {
+            list-style: none;
+        }
+        
+        .sub {
+            height: 30px;
+            width: 150px;
+            border-radius: 15px;
+            margin: 0 100px;
+            margin-top: 20px;
+            border: 1px solid #999;
+        }
+        
+        .sub a {
+            display: inline-block;
+            height: 20px;
+            text-decoration: none;
+            color: #4c4c4c;
+            font-size: 12px;
+        }
+        
+        .sub a:hover {
+            background-color: #eee;
+            color: rgba(102, 175, 233, .6);
+        }
+        
+        input {
+            outline-style: none;
+            border: 1px solid #ccc;
+            width: 150px;
+            height: 25px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: "Microsoft";
+        }
+        
+        .input UL LI {
+            height: 20px;
+            line-height: 20px;
+            padding-left: 30px;
+            padding-top: 15px;
+        }
+        
+        input:focus {
+            border-color: #66afe9;
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) ;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="input">
+            <UL>
+                <LI>以太网帧的数据: <input v-model="input_data" autocomplete="off" placeholder="请输入数据部分"></LI>
+                <LI>目的MAC地址: <input v-model="input_des_mac" autocomplete="off" placeholder="请输入目的MAC地址"></LI>
+                <LI>源MAC地址: <input v-model="input_sou_mac" autocomplete="off" placeholder="请输入源MAC地址"></LI>
+                <LI>长度字段: <input v-model="input_len" autocomplete="off" placeholder="请输入长度字段"></LI>
+            </UL>
+            <button class="sub" @click="getData"><a href="#">显示</a></button>
+        </div>
+
+        <div class="output">
+            <p>前导码: {{preamble}}</p>
+            <p>帧前定界符: {{DBF}}</p>
+            <p>目的地址: {{des_add}}</p>
+            <p>源地址: {{sou_add}}</p>
+            <p>长度字段: {{len_field}}</p>
+            <p>数据字段: {{data_field}}</p>
+            <p>校验字段: {{check_field}}</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        function f(num) {
+            var P = new Array(1, 0, 0, 0, 0, 0, 1, 1, 1);//多项式G（X）=X8+X2+X+1
+            var n = 8,
+                len = 0;
+            //补零
+            for (var i = 0; i < n; i++)
+                num *= 10;
+            var M = new Array();
+            var tmp = num;
+            //存入M数组
+            while (tmp >= 1) {
+                M[len++] = tmp % 10;
+                tmp = parseInt(tmp / 10);
+            }
+            //倒序
+            for (var i = 0; i <= len / 2; i++) {
+                var tmp = M[i];
+                M[i] = M[len - 1 - i];
+                M[len - 1 - i] = tmp;
+            }
+
+            var head = 0,
+                tail = n,
+                cnt = 0;
+            //计算过程
+            while (tail < len && (tail - head) == n) {
+                var flag = 1;
+                var headchange;
+                for (var i = head; i <= tail; i++) {
+                    var tmp;
+                    //异或运算
+                    if (M[i] == P[i - head]) tmp = 0;
+                    else tmp = 1;
+                    //console.log(M[i] + "^" + P[i - head] + " =" + tmp);
+                    if (flag == 1 && tmp == 1) {//余数为1的为下次计算的开始
+                        flag = 0;
+                        headchange = i;
+                    }
+                    M[i] = tmp;
+                }
+                if (!flag) head = headchange;
+                if (cnt == 10)
+                    while (tail < len)
+                        tail++;
+                while ((tail - head) < n) tail++;//移动尾指针，保证有n位在计算
+                cnt++;
+            }
+            console.log(M);
+            return M;
+        };
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                input_data: "",
+                input_des_mac: "",
+                input_sou_mac: "",
+                input_len: "",
+                preamble: "-",
+                DBF: "-",
+                des_add: "-",
+                sou_add: "-",
+                len_field: "-",
+                data_field: "-",
+                check_field: "-"
+            },
+            methods: {
+                getData: function() {
+                    if (this.input_des_mac != "" && this.input_sou_mac != "" && this.input_len != "" && this.input_data != "") {
+                        //前导符
+                        this.preamble = "0xAAAAAAAAAAAAAA";
+                        //帧前定界符
+                        this.DBF = "0xAB";
+                        //目的地址
+                        this.des_add = this.input_des_mac;
+                        //源地址
+                        this.sou_add = this.input_sou_mac;
+                        //长度字段
+                        this.len_field = this.input_len;
+                        //数据字段
+                        this.data_field = this.input_data;
+                        //校验字段
+                        var tmp = 1;
+                        tmp = f(this.input_data)
+                        this.check_field = tmp;
+                    } else {
+                        alert("请输入完整字段");
+                    }
+                },
+            }
+        });
+    </script>
+
+</body>
+
+</html>

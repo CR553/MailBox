@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="css/index.css" rel="stylesheet">
+    <style>
+        #backgroundPic{
+            width: 700px;
+            height: 400px;
+            margin-left: 300px;
+            margin-top: 80px;
+        }
+        #backgroundPic .p1{
+            font-size: 20px;
+            font-family: 微软雅黑;
+
+        }
+        #backgroundPic .p2{
+            font-size: 15px;
+            font-family: "微软雅黑 Light";
+
+        }
+    </style>
+
+</head>
+<body >
+<div id="header">
+    <div id="logo"><a th:href="@{/index}"><img src="/photo/CLogo.png" height="65px" width="65px"></a></div>
+    <div id="nav">
+        <span th:if="${session.LoginUserName}!=null">
+            <span >尊敬的&nbsp;<span id="userStyle" th:text="${session.LoginUserName}"></span>
+            &nbsp;欢迎回来</span>
+            <span><a th:href="@{/logOut}">登出</a></span>
+        </span>
+            <a th:if="${session.LoginUserName==null}" th:href="@{/toLogin}">登录</a>
+            <a th:href="@{/toRegister}">注册</a>
+            <a th:href="@{/toSendMail}">发送邮件</a>
+            <a th:href="@{/user/receiveMail}">收件箱</a>
+    </div>
+</div>
+<div id="box">
+    <hr>
+    <div id="backgroundPic">
+        <img src="photo/bg1.jpg" height="250" width="500">
+        <h2>2020计算机网络邮件收发系统</h2>
+        <p class="p1">网络（国际）1801 梅海迪</p>
+        <p class="p2">Made by CR553</p>
+    </div>
+</div>
+<div id="footer">
+    <hr>
+    <p class="producer">Made by CR553</p>
+</div>
+</body>
+</html>

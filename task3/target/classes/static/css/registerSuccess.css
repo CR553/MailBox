@@ -1,0 +1,17 @@
+.SuccessMsg{
+    height: 300px;
+    width: 600px;
+    margin: auto;
+    margin-top: 50px;
+}
+a{
+    text-decoration: none;
+    color: red;
+}
+p{
+    height: 40px;
+    font-family: Arial;
+    font-size: 30px;
+    text-align: center;
+    line-height: 40px;
+}

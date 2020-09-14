@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发送邮件</title>
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/send.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+</head>
+<body>
+<div id="header">
+    <div id="logo"><a th:href="@{/index}"><img src="/photo/CLogo.png" height="65px" width="65px"></a></div>
+    <div id="nav">
+        <span th:if="${session.LoginUserName}!=null">
+            <span >尊敬的&nbsp;<span id="userStyle" th:text="${session.LoginUserName}"></span>
+            &nbsp;欢迎回来</span>
+            <span><a th:href="@{/logOut}">登出</a></span>
+        </span>
+        <a th:if="${session.LoginUserName==null}" th:href="@{/toLogin}">登录</a>
+        <a th:href="@{/toRegister}">注册</a>
+        <a th:href="@{/toSendMail}">发送邮件</a>
+        <a th:href="@{/user/receiveMail}">收件箱</a>
+    </div>
+</div>
+<div id="box">
+    <hr>
+    <div id="content">
+        <form th:action="@{/user/sendMail}">
+            <p th:text="${msg}" style="color: red"></p>
+            <div class="box1">
+                <span>收件人：</span>
+                <input type="text" name="receiverName"  id="receiver">
+            </div>
+            <div class="box1">
+                <span>主&nbsp;&nbsp;&nbsp;题：</span>
+                <input type="text" name="titleName" id="theme" >
+            </div>
+            <div class="box2">
+                <p>正&nbsp;&nbsp;&nbsp;文：</p>
+                <textarea name="infoName" id="info" cols="50" rows="10" ></textarea>
+            </div>
+            <div class="input-button">
+                <input type="submit" value="发送" id="send">
+                <input type="reset" value="重写" id="reset">
+            </div>
+        </form>
+    </div>
+
+</div>
+<div id="footer">
+    <hr>
+    <p class="producer">Made by CR553</p>
+</div>
+</body>
+</html>

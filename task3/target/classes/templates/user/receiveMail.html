@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>接收邮件</title>
+    <!-- 引入的css文件  -->
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/css/receivce.css" rel="stylesheet">
+    <!-- 引入的js文件 -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+</head>
+<body>
+<div id="header">
+    <div id="logo"><a th:href="@{/index}"><img src="/photo/CLogo.png" height="65px" width="65px"></a></div>
+    <div id="nav">
+        <span th:if="${session.LoginUserName}!=null">
+            <span >尊敬的&nbsp;<span id="userStyle" th:text="${session.LoginUserName}"></span>
+            &nbsp;欢迎回来</span>
+            <span><a th:href="@{/logOut}">登出</a></span>
+        </span>
+        <a th:if="${session.LoginUserName==null}" th:href="@{/toLogin}">登录</a>
+        <a th:href="@{/toRegister}">注册</a>
+        <a th:href="@{/toSendMail}">发送邮件</a>
+        <a th:href="@{/user/receiveMail}">收件箱</a>
+    </div>
+</div>
+<div id="box">
+    <hr>
+    <div class="AllBox">
+        <table border="1" id="table_page" >
+            <tr th:each="mail,mailStu:${mailList}">
+                <td th:text="${mailStu.index}+1"></td>
+                <td th:text="${mail.getFromUser()}"></td>
+                <td th:text="${mail.getSubject()}"></td>
+                <td th:text="${mail.getContent()}"></td>
+                <td th:text="${mail.getSendDate()}"></td>
+                <td th:text="${mail.isSeen()}"></td>
+                <td th:text="${mail.getReceviceAddress()}"></td>
+                <td><a th:href="@{/toSendMail}">回复</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="footer">
+    <hr>
+    <p class="producer">Made by CR553</p>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#table_page").bootstrapTable({
+            height: 550,
+            pagination: true,
+            pageSize: 7,
+            pageList: [5, 7, 10,],
+            clickToSelect: true,
+            columns: [{
+                field: '序号',
+                title: '序号'
+            },{
+                field: '发送者',
+                title: '发送者'
+            },{
+                field: '主题',
+                title: '主题'
+            },{
+                field: '内容',
+                title: '内容'
+            },{
+                field: '发送时间',
+                title: '发送时间'
+            },{
+                field: '是否已读',
+                title: '是否已读'
+            },{
+                field: '接收地址',
+                title: '接收地址'
+            },{
+                field: '回复',
+                title: '回复'
+            }]
+        });
+    })
+</script>
+</body>
+</html>
